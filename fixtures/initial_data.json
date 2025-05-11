@@ -1,0 +1,206 @@
+[
+  {
+    "model": "products.category",
+    "pk": 1,
+    "fields": {
+      "name": "Điện thoại",
+      "slug": "dien-thoai",
+      "description": "Điện thoại thông minh với nhiều mẫu mã phong phú từ các thương hiệu nổi tiếng trên thế giới."
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 2,
+    "fields": {
+      "name": "Laptop",
+      "slug": "laptop",
+      "description": "Máy tính xách tay đa dạng về mẫu mã, cấu hình phù hợp với nhu cầu công việc và giải trí."
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 3,
+    "fields": {
+      "name": "Tai nghe",
+      "slug": "tai-nghe",
+      "description": "Tai nghe chất lượng cao cho âm thanh sống động, phù hợp cho âm nhạc và chơi game."
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 4,
+    "fields": {
+      "name": "Phụ kiện",
+      "slug": "phu-kien",
+      "description": "Phụ kiện đa dạng cho thiết bị di động và máy tính: sạc, cáp, bao da, ốp lưng..."
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "iPhone 15 Pro",
+      "slug": "iphone-15-pro",
+      "price": "27990000.00",
+      "description": "iPhone 15 Pro với camera 48MP, chip A17 Pro, màn hình Super Retina XDR 6.1 inch và thiết kế titanium sang trọng.",
+      "category": 1,
+      "available": true,
+      "created": "2025-05-11T10:00:00Z",
+      "updated": "2025-05-11T10:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Samsung Galaxy S24 Ultra",
+      "slug": "samsung-galaxy-s24-ultra",
+      "price": "29990000.00",
+      "description": "Samsung Galaxy S24 Ultra với camera 200MP, S Pen tích hợp, màn hình Dynamic AMOLED 2X 6.8 inch và pin 5000mAh.",
+      "category": 1,
+      "available": true,
+      "created": "2025-05-11T10:01:00Z",
+      "updated": "2025-05-11T10:01:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "Xiaomi 14 Pro",
+      "slug": "xiaomi-14-pro",
+      "price": "19990000.00",
+      "description": "Xiaomi 14 Pro với camera Leica, chip Snapdragon 8 Gen 3, màn hình AMOLED 6.7 inch và sạc nhanh 120W.",
+      "category": 1,
+      "available": true,
+      "created": "2025-05-11T10:02:00Z",
+      "updated": "2025-05-11T10:02:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "MacBook Pro M3",
+      "slug": "macbook-pro-m3",
+      "price": "39990000.00",
+      "description": "MacBook Pro với chip M3, màn hình Liquid Retina XDR 14 inch, hiệu suất đồ họa mạnh mẽ và thời lượng pin lên đến 22 giờ.",
+      "category": 2,
+      "available": true,
+      "created": "2025-05-11T10:03:00Z",
+      "updated": "2025-05-11T10:03:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "Dell XPS 15",
+      "slug": "dell-xps-15",
+      "price": "35990000.00",
+      "description": "Dell XPS 15 với màn hình OLED 4K, chip Intel Core i9 thế hệ 13, card đồ họa NVIDIA RTX 4070 và thiết kế mỏng nhẹ.",
+      "category": 2,
+      "available": true,
+      "created": "2025-05-11T10:04:00Z",
+      "updated": "2025-05-11T10:04:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "Asus ROG Zephyrus G16",
+      "slug": "asus-rog-zephyrus-g16",
+      "price": "42990000.00",
+      "description": "Laptop gaming Asus ROG Zephyrus G16 với màn hình 16 inch 240Hz, chip Intel Core i9, card đồ họa RTX 4090 và hệ thống tản nhiệt tiên tiến.",
+      "category": 2,
+      "available": true,
+      "created": "2025-05-11T10:05:00Z",
+      "updated": "2025-05-11T10:05:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "AirPods Pro 2",
+      "slug": "airpods-pro-2",
+      "price": "5990000.00",
+      "description": "AirPods Pro 2 với khả năng chống ồn chủ động, âm thanh không gian và thời lượng pin cải thiện.",
+      "category": 3,
+      "available": true,
+      "created": "2025-05-11T10:06:00Z",
+      "updated": "2025-05-11T10:06:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "Sony WH-1000XM5",
+      "slug": "sony-wh-1000xm5",
+      "price": "7990000.00",
+      "description": "Tai nghe chụp tai Sony WH-1000XM5 với công nghệ chống ồn hàng đầu, âm thanh Hi-Res và thời lượng pin lên đến 30 giờ.",
+      "category": 3,
+      "available": true,
+      "created": "2025-05-11T10:07:00Z",
+      "updated": "2025-05-11T10:07:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "Bose QuietComfort Ultra",
+      "slug": "bose-quietcomfort-ultra",
+      "price": "8990000.00",
+      "description": "Bose QuietComfort Ultra với âm thanh chân thực, chống ồn chủ động và thiết kế thoải mái đeo cả ngày.",
+      "category": 3,
+      "available": true,
+      "created": "2025-05-11T10:08:00Z",
+      "updated": "2025-05-11T10:08:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "Sạc nhanh Samsung 45W",
+      "slug": "sac-nhanh-samsung-45w",
+      "price": "990000.00",
+      "description": "Bộ sạc nhanh Samsung 45W giúp sạc điện thoại và tablet nhanh chóng với công nghệ Power Delivery.",
+      "category": 4,
+      "available": true,
+      "created": "2025-05-11T10:09:00Z",
+      "updated": "2025-05-11T10:09:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "Ốp lưng iPhone 15 Pro",
+      "slug": "op-lung-iphone-15-pro",
+      "price": "599000.00",
+      "description": "Ốp lưng iPhone 15 Pro chính hãng với thiết kế trong suốt, bảo vệ chống trầy xước và va đập.",
+      "category": 4,
+      "available": true,
+      "created": "2025-05-11T10:10:00Z",
+      "updated": "2025-05-11T10:10:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "Chuột không dây Logitech MX Master 3S",
+      "slug": "chuot-khong-day-logitech-mx-master-3s",
+      "price": "2490000.00",
+      "description": "Chuột không dây Logitech MX Master 3S với cảm biến 8K DPI, cuộn siêu nhanh và kết nối đa thiết bị.",
+      "category": 4,
+      "available": true,
+      "created": "2025-05-11T10:11:00Z",
+      "updated": "2025-05-11T10:11:00Z"
+    }
+  }
+]
