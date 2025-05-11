@@ -15,17 +15,29 @@ class ProductSearchForm(forms.Form):
     """Form for product search and filtering."""
     search = forms.CharField(
         required=False, 
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tìm kiếm sản phẩm...'})
+        widget=forms.TextInput(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Tìm kiếm sản phẩm...', 
+            'autocomplete': 'off'
+        })
     )
     min_price = forms.DecimalField(
         required=False, 
         min_value=0, 
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Giá tối thiểu'})
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Giá tối thiểu',
+            'min': '0'
+        })
     )
     max_price = forms.DecimalField(
         required=False, 
         min_value=0, 
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Giá tối đa'})
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Giá tối đa',
+            'min': '0'
+        })
     )
     
     def clean(self):
