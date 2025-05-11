@@ -1,5 +1,11 @@
 import os
-from shop.wsgi import application
+from django.core.wsgi import get_wsgi_application
+from django.conf import settings
+from django.contrib.staticfiles.handlers import StaticFilesHandler
 
-# Define the Flask WSGI app for gunicorn to use
-app = application
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop.settings')
+
+if settings.DEBUG:
+    app = StaticFilesHandler(get_wsgi_application())
+else:
+    app = get_wsgi_application()
