@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Đặt hàng thành công{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <div class="mb-4">
+        <i class="fas fa-check-circle fa-4x text-success"></i>
+    </div>
+    <h2 class="mb-3">Đặt hàng thành công!</h2>
+    <p class="lead mb-4">Cảm ơn bạn, đơn hàng của bạn đã được nhận.</p>
+    <p class="mb-1">Mã đơn hàng: <strong>#{{ order.id }}</strong></p>
+    <p class="mb-4">Chúng tôi đã gửi email xác nhận đến <strong>{{ order.email }}</strong></p>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0">Thông tin đơn hàng</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6 class="mb-2">Thông tin liên hệ</h6>
+                            <p class="mb-1">{{ order.first_name }} {{ order.last_name }}</p>
+                            <p class="mb-1">{{ order.email }}</p>
+                            <p class="mb-0">{{ order.phone }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="mb-2">Địa chỉ giao hàng</h6>
+                            <p class="mb-1">{{ order.address }}</p>
+                            <p class="mb-0">{{ order.city }}, {{ order.province }} {{ order.postal_code }}</p>
+                        </div>
+                    </div>
+                    
+                    <h6 class="mb-3">Sản phẩm đã đặt</h6>
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-end">Đơn giá</th>
+                                    <th class="text-end">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                    <tr>
+                                        <td>{{ item.product.name }}</td>
+                                        <td class="text-center">{{ item.quantity }}</td>
+                                        <td class="text-end">{{ item.price|intcomma }} đ</td>
+                                        <td class="text-end">{{ item.get_cost|intcomma }} đ</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3" class="text-end">Tổng cộng:</th>
+                                    <th class="text-end">{{ order.get_total_cost|intcomma }} đ</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-primary">Xem chi tiết đơn hàng</a>
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary">Tiếp tục mua sắm</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh mục sản phẩm{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Danh mục sản phẩm</h2>
+
+<div class="row g-4">
+    {% for category in categories %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <div class="category-icon mb-3">
+                        {% if category.image %}
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="img-fluid category-image">
+                        {% else %}
+                            <i class="fas fa-th-large fa-3x text-primary"></i>
+                        {% endif %}
+                    </div>
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text text-muted">{{ category.description|default:'Không có mô tả'|truncatewords:15 }}</p>
+                    <p class="card-text"><small class="text-muted">{{ category.products.count }} sản phẩm</small></p>
+                    <a href="{{ category.get_absolute_url }}" class="btn btn-primary">Xem sản phẩm</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p class="mb-0">Không có danh mục nào.</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

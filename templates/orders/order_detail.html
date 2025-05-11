@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Chi tiết đơn hàng #{{ order.id }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'orders:order_history' %}">Lịch sử đơn hàng</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Đơn hàng #{{ order.id }}</li>
+    </ol>
+</nav>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Đơn hàng #{{ order.id }}</h4>
+        <span class="badge bg-{{ order.get_status_display_label.class }} fs-6">
+            {{ order.get_status_display_label.label }}
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5 class="mb-3">Thông tin đơn hàng</h5>
+                <p class="mb-1"><strong>Ngày đặt hàng:</strong> {{ order.created|date:"d/m/Y H:i" }}</p>
+                <p class="mb-1"><strong>Phương thức thanh toán:</strong> 
+                    {% if order.payment_method == 'cod' %}
+                        Thanh toán khi nhận hàng
+                    {% elif order.payment_method == 'bank_transfer' %}
+                        Chuyển khoản ngân hàng
+                    {% elif order.payment_method == 'e_wallet' %}
+                        Ví điện tử
+                    {% elif order.payment_method == 'credit_card' %}
+                        Thẻ tín dụng
+                    {% endif %}
+                </p>
+                {% if order.note %}
+                    <p class="mb-0"><strong>Ghi chú:</strong> {{ order.note }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="col-md-6">
+                <h5 class="mb-3">Thông tin giao hàng</h5>
+                <p class="mb-1"><strong>Người nhận:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+                <p class="mb-1"><strong>Địa chỉ:</strong> {{ order.address }}</p>
+                <p class="mb-1"><strong>Thành phố:</strong> {{ order.city }}, {{ order.province }}</p>
+                <p class="mb-1"><strong>Mã bưu điện:</strong> {{ order.postal_code }}</p>
+                <p class="mb-1"><strong>Email:</strong> {{ order.email }}</p>
+                <p class="mb-0"><strong>Điện thoại:</strong> {{ order.phone }}</p>
+            </div>
+        </div>
+        
+        <h5 class="mb-3">Sản phẩm</h5>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th class="text-center">Số lượng</th>
+                        <th class="text-end">Đơn giá</th>
+                        <th class="text-end">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        {% if item.product.image %}
+                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 50px; height: 50px; object-fit: contain;">
+                                        {% else %}
+                                            <div class="bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-box text-secondary"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{ item.product.name }}</h6>
+                                        <small class="text-muted">{{ item.product.category.name }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">{{ item.quantity }}</td>
+                            <td class="text-end">{{ item.price|intcomma }} đ</td>
+                            <td class="text-end">{{ item.get_cost|intcomma }} đ</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" class="text-end">Tạm tính:</th>
+                        <td class="text-end">{{ order.get_total_cost|intcomma }} đ</td>
+                    </tr>
+                    <tr>
+                        <th colspan="3" class="text-end">Phí vận chuyển:</th>
+                        <td class="text-end">Miễn phí</td>
+                    </tr>
+                    <tr>
+                        <th colspan="3" class="text-end">Tổng cộng:</th>
+                        <th class="text-end text-primary">{{ order.get_total_cost|intcomma }} đ</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mb-5">
+    <a href="{% url 'orders:order_history' %}" class="btn btn-outline-secondary me-2">
+        <i class="fas fa-arrow-left me-2"></i>Quay lại lịch sử đơn hàng
+    </a>
+    <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+        <i class="fas fa-shopping-cart me-2"></i>Tiếp tục mua sắm
+    </a>
+</div>
+{% endblock %}

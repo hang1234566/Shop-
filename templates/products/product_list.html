@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Tất cả sản phẩm{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Filters Sidebar -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Tìm kiếm & Lọc</h5>
+            </div>
+            <div class="card-body">
+                <form method="get" action="{% if category %}{{ category.get_absolute_url }}{% else %}{% url 'products:product_list' %}{% endif %}">
+                    <!-- Search field -->
+                    <div class="mb-3">
+                        <label for="search" class="form-label">Tìm kiếm</label>
+                        {{ form.search }}
+                    </div>
+                    
+                    <!-- Price range fields -->
+                    <div class="mb-3">
+                        <label class="form-label">Khoảng giá</label>
+                        <div class="input-group mb-2">
+                            {{ form.min_price }}
+                            <span class="input-group-text">-</span>
+                            {{ form.max_price }}
+                        </div>
+                    </div>
+                    
+                    <!-- Categories -->
+                    {% if not category %}
+                        <div class="mb-3">
+                            <label class="form-label">Danh mục</label>
+                            <div class="list-group">
+                                {% for cat in categories %}
+                                    <a href="{{ cat.get_absolute_url }}" class="list-group-item list-group-item-action">
+                                        {{ cat.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <button type="submit" class="btn btn-primary w-100">Áp dụng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Products Grid -->
+    <div class="col-md-9">
+        <!-- Category title -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">
+                {% if category %}
+                    {{ category.name }}
+                {% else %}
+                    Tất cả sản phẩm
+                {% endif %}
+            </h2>
+            {% if category %}
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Tất cả sản phẩm
+                </a>
+            {% endif %}
+        </div>
+        
+        <!-- Products -->
+        <div class="row g-4">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm product-card">
+                        <div class="card-img-top bg-light p-3 text-center">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                            {% else %}
+                                <div class="product-image-placeholder">
+                                    <i class="fas fa-box fa-3x text-secondary"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted mb-2">{{ product.category.name }}</p>
+                            <p class="fw-bold text-primary mb-0">{{ product.price }} đ</p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
+                            <a href="{{ product.get_absolute_url }}" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cart-plus"></i> Thêm
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <p class="mb-0">Không tìm thấy sản phẩm nào phù hợp với tiêu chí tìm kiếm.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Tài khoản của tôi{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Tài khoản của tôi</h2>
+
+<div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#profile" class="list-group-item list-group-item-action active" data-bs-toggle="tab">
+                    <i class="fas fa-user me-2"></i>Thông tin tài khoản
+                </a>
+                <a href="#orders" class="list-group-item list-group-item-action" data-bs-toggle="tab">
+                    <i class="fas fa-shopping-bag me-2"></i>Lịch sử đơn hàng
+                </a>
+                <a href="{% url 'accounts:logout' %}" class="list-group-item list-group-item-action text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content -->
+    <div class="col-md-9">
+        <div class="tab-content">
+            <!-- Profile Tab -->
+            <div class="tab-pane fade show active" id="profile">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Thông tin tài khoản</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            {% if user_form.errors or profile_form.errors %}
+                                <div class="alert alert-danger">
+                                    {{ user_form.errors }}
+                                    {{ profile_form.errors }}
+                                </div>
+                            {% endif %}
+                            
+                            <h6 class="mb-3">Thông tin cá nhân</h6>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="{{ user_form.first_name.id_for_label }}" class="form-label">Họ</label>
+                                    {{ user_form.first_name }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Tên</label>
+                                    {{ user_form.last_name }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ user_form.username.id_for_label }}" class="form-label">Tên đăng nhập</label>
+                                    {{ user_form.username }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
+                                    {{ user_form.email }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ profile_form.phone_number.id_for_label }}" class="form-label">Số điện thoại</label>
+                                    {{ profile_form.phone_number }}
+                                </div>
+                            </div>
+                            
+                            <h6 class="mb-3">Địa chỉ giao hàng</h6>
+                            <div class="row g-3 mb-4">
+                                <div class="col-12">
+                                    <label for="{{ profile_form.address.id_for_label }}" class="form-label">Địa chỉ</label>
+                                    {{ profile_form.address }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ profile_form.city.id_for_label }}" class="form-label">Thành phố</label>
+                                    {{ profile_form.city }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ profile_form.province.id_for_label }}" class="form-label">Tỉnh/Thành phố</label>
+                                    {{ profile_form.province }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ profile_form.postal_code.id_for_label }}" class="form-label">Mã bưu điện</label>
+                                    {{ profile_form.postal_code }}
+                                </div>
+                            </div>
+                            
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Orders Tab -->
+            <div class="tab-pane fade" id="orders">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Lịch sử đơn hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if orders %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Mã đơn hàng</th>
+                                            <th>Ngày đặt</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Trạng thái</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                            <tr>
+                                                <td>#{{ order.id }}</td>
+                                                <td>{{ order.created|date:"d/m/Y" }}</td>
+                                                <td>{{ order.get_total_cost|intcomma }} đ</td>
+                                                <td>
+                                                    <span class="badge bg-{{ order.get_status_display_label.class }}">
+                                                        {{ order.get_status_display_label.label }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm btn-outline-primary">
+                                                        Chi tiết
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <div class="mb-3">
+                                    <i class="fas fa-shopping-bag fa-3x text-muted"></i>
+                                </div>
+                                <h5 class="mb-3">Bạn chưa có đơn hàng nào</h5>
+                                <a href="{% url 'products:product_list' %}" class="btn btn-primary">Mua sắm ngay</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Lịch sử đơn hàng{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Lịch sử đơn hàng</h2>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0">Đơn hàng của tôi</h5>
+    </div>
+    <div class="card-body">
+        {% if orders %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Ngày đặt</th>
+                            <th>Tổng tiền</th>
+                            <th>Phương thức thanh toán</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.created|date:"d/m/Y" }}</td>
+                                <td>{{ order.get_total_cost|intcomma }} đ</td>
+                                <td>
+                                    {% if order.payment_method == 'cod' %}
+                                        <span>Thanh toán khi nhận hàng</span>
+                                    {% elif order.payment_method == 'bank_transfer' %}
+                                        <span>Chuyển khoản ngân hàng</span>
+                                    {% elif order.payment_method == 'e_wallet' %}
+                                        <span>Ví điện tử</span>
+                                    {% elif order.payment_method == 'credit_card' %}
+                                        <span>Thẻ tín dụng</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge bg-{{ order.get_status_display_label.class }}">
+                                        {{ order.get_status_display_label.label }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm btn-outline-primary">
+                                        Chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-4">
+                <div class="mb-3">
+                    <i class="fas fa-shopping-bag fa-3x text-muted"></i>
+                </div>
+                <h5 class="mb-3">Bạn chưa có đơn hàng nào</h5>
+                <a href="{% url 'products:product_list' %}" class="btn btn-primary">Mua sắm ngay</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
